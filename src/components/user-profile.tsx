@@ -9,6 +9,16 @@ export default function UserProfile() {
     const supabase = createClient()
     const router = useRouter()
 
+    // Handle sign out in a separate non-async function
+    const handleSignOut = () => {
+        // Don't use async/await directly in the component
+        supabase.auth.signOut().then(() => {
+            router.refresh()
+        }).catch(error => {
+            console.error('Error signing out:', error)
+        })
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -17,10 +27,7 @@ export default function UserProfile() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={async () => {
-                    await supabase.auth.signOut()
-                    router.refresh()
-                }}>
+                <DropdownMenuItem onClick={handleSignOut}>
                     Sign out
                 </DropdownMenuItem>
             </DropdownMenuContent>

@@ -1,0 +1,32 @@
+# Environment variables
+../.env
+../.env.*
+../.env.local
+../.env.development
+../.env.test
+../.env.production
+../.env.*.local
+
+# Data files
+**/data/
+**/*.csv
+**/*.json
+**/*.parquet
+**/*.npy
+**/*.npz
+**/*.h5
+
+# Model files
+**/models/
+**/*.pt
+**/*.pth
+**/*.onnx
+**/*.tflite
+**/*.pb
+
+# Notebooks checkpoints
+**/.ipynb_checkpoints/
+
+# Cache
+**/__pycache__/
+**/*.pyc 

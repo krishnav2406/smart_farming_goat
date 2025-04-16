@@ -39,7 +39,7 @@ export default function DashboardNavbar() {
     },
     {
       href: "/soil-monitoring",
-      label: "Soil",
+      label: "Live News",
       icon: <Droplet className="h-5 w-5" />,
     },
     {
@@ -107,9 +107,14 @@ export default function DashboardNavbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={async () => {
-                  await supabase.auth.signOut();
-                  router.refresh();
+                onClick={() => {
+                  supabase.auth.signOut()
+                    .then(() => {
+                      router.refresh();
+                    })
+                    .catch(error => {
+                      console.error('Error signing out:', error);
+                    });
                 }}
               >
                 Sign out

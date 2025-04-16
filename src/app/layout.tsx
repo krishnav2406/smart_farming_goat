@@ -4,12 +4,13 @@ import "./globals.css";
 import Script from "next/script";
 import { TempoInit } from "@/components/tempo-init";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SupabaseProvider } from "@/providers/supabase-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tempo - Modern SaaS Starter",
-  description: "A modern full-stack starter template powered by Next.js",
+  title: "Smart Farming Goat - Revolutionizing Agriculture",
+  description: "Advanced farming management tools for soil monitoring and crop optimization",
 };
 
 export default function RootLayout({
@@ -27,7 +28,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SupabaseProvider>
+            {children}
+          </SupabaseProvider>
         </ThemeProvider>
         <TempoInit />
       </body>

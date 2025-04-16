@@ -9,10 +9,24 @@ import {
   Package,
   BarChart3,
   ArrowRight,
+  Droplets
 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createClient } from "../../../supabase/server";
 import Link from "next/link";
+import { getWeatherData } from "@/lib/weather";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+  Activity,
+  BellRing,
+  Calendar,
+  Eye,
+  LineChart,
+  Plus,
+  Search,
+} from "lucide-react";
+import Image from "next/image";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -25,14 +39,18 @@ export default async function Dashboard() {
     return redirect("/sign-in");
   }
 
-  // Mock data for dashboard widgets
+  // Fetch real weather data for the dashboard
+  const weatherForecast = await getWeatherData("Chennai, India");
+
+  // Processing the weather data for display
   const weatherData = {
-    temperature: "24°C",
-    condition: "Partly Cloudy",
-    humidity: "65%",
-    windSpeed: "12 km/h",
+    temperature: weatherForecast.current.temperature,
+    condition: weatherForecast.current.condition,
+    humidity: weatherForecast.current.humidity,
+    icon: weatherForecast.current.icon
   };
 
+  // Mock data for dashboard widgets
   const soilData = {
     moisture: "42%",
     ph: "6.8",
@@ -93,18 +111,23 @@ export default async function Dashboard() {
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Weather Forecast</h3>
                 <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Temperature</span>
-                    <span className="font-medium">
-                      {weatherData.temperature}
-                    </span>
+                  <div className="flex items-center gap-3 mb-3">
+                    {weatherData.icon === 'sun' ? (
+                      <Sun className="h-10 w-10 text-yellow-500" />
+                    ) : weatherData.icon === 'cloud-rain' ? (
+                      <CloudRain className="h-10 w-10 text-blue-400" />
+                    ) : (
+                      <Cloud className="h-10 w-10 text-blue-400" />
+                    )}
+                    <div>
+                      <div className="text-2xl font-bold">
+                        {weatherData.temperature}
+                      </div>
+                      <span className="font-medium">{weatherData.condition}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Condition</span>
-                    <span className="font-medium">{weatherData.condition}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Humidity</span>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Droplets className="h-4 w-4 text-blue-500" />
                     <span className="font-medium">{weatherData.humidity}</span>
                   </div>
                 </div>
@@ -275,5 +298,54 @@ export default async function Dashboard() {
         </div>
       </main>
     </>
+  );
+}
+
+function Sun(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="m4.93 4.93 1.41 1.41" />
+      <path d="m17.66 17.66 1.41 1.41" />
+      <path d="M2 12h2" />
+      <path d="M20 12h2" />
+      <path d="m6.34 17.66-1.41 1.41" />
+      <path d="m19.07 4.93-1.41 1.41" />
+    </svg>
+  );
+}
+
+function CloudRain(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+      <path d="M16 14v6" />
+      <path d="M8 14v6" />
+      <path d="M12 16v6" />
+    </svg>
   );
 }

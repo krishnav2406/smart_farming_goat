@@ -1,0 +1,18 @@
+# Environment variables
+../../.env
+../../.env.*
+../../.env.local
+../../.env.development
+../../.env.test
+../../.env.production
+../../.env.*.local
+
+# Build files
+**/.next/
+**/out/
+
+# Cache
+**/.swc/
+
+# Logs
+**/*.log 

@@ -30,8 +30,14 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
 .env
+.env.*
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+google-credentials.json
 
 # vercel
 .vercel
@@ -41,7 +47,6 @@ yarn-error.log*
 next-env.d.ts
 
 # Tempo
-
 node_modules/
 **/tempobook/dynamic/
 **/tempobook/storyboards/
@@ -50,3 +55,9 @@ node_modules/
 .git
 
 .github/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo

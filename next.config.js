@@ -1,9 +1,24 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+    reactStrictMode: true,
     images: {
-        domains: ['images.unsplash.com'],
-    }
+        domains: ['images.unsplash.com', 'plus.unsplash.com'],
+    },
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            // Don't resolve 'fs', 'net', etc. on the client
+            config.resolve.fallback = {
+                fs: false,
+                net: false,
+                tls: false,
+                dns: false,
+                child_process: false,
+                http2: false,
+            };
+        }
+        return config;
+    },
 };
 
 if (process.env.NEXT_PUBLIC_TEMPO) {

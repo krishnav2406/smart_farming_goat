@@ -1,0 +1,15 @@
+# Environment variables
+../../.env
+../../.env.*
+../../.env.local
+../../.env.development
+../../.env.test
+../../.env.production
+../../.env.*.local
+
+# Credentials
+**/credentials/
+**/keys/
+**/*.pem
+**/*.key
+**/google-credentials.json 
